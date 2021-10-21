@@ -1,3 +1,5 @@
+const { Response: expressResponse } = require("express")
+
 const sendSuccess = (res, data) => res.status(200).send({
     success: true,
     data
@@ -23,6 +25,18 @@ const sendNotFound = (res) => res.status(401).send({
     error: "Page not found"
 });
 
+
+/**
+ * 
+ * @param {expressResponse} res Express Response
+ * @param {String} heading
+ * @param {String} message
+ * @param {Number} statusCode
+ */
+const renderMessage = (res, heading = "", message = "", statusCode = 200) => {
+    res.status(statusCode).render("pages/message", [heading, message]);
+}
+
 // /**
 //  * @param {{}} joiSchema joi object schema
 //  * @param {{}} body request body
@@ -42,5 +56,6 @@ module.exports = {
     sendUserError,
     // joiValidator,
     sendNotAuthorized,
-    sendNotFound
+    sendNotFound,
+    renderMessage
 }
