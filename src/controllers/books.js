@@ -14,21 +14,20 @@ const booksIndex = async (req, res) => {
 
         res.render("pages/index", data);
     }catch(err){
-        res.status(500).render("pages/error", { error: "Internal Error #66234c" })
+        res.status(500).render("pages/message", ["Error", "Internal Error #66234c"])
     }
-
 }
 
 const newBook = async (req, res) => {
     try{
         const categories = await getCategoriesModel();
-        if(!categories.length) return res.status(500).render("pages/error", { error: "Internal Error #66234a-1" });
+        if(!categories.length) return res.status(500).render("pages/message", ["Error", "Internal Error #66234a-1"])
         res.render("pages/newbook", {
             page: "newbook",
             categories
         });
     }catch(err){
-        res.status(500).render("pages/error", { error: "Internal Error #66234a-2" })
+        res.status(500).render("pages/message", ["Error", "Internal Error #66234a-2"])
     }
 }
 
@@ -38,12 +37,12 @@ const postNewBook = async (req, res) => {
     try{
         const postNewBookResponse = await postNewBookModel(title, author, year, category);
         if(postNewBookResponse?.affectedRows > 0){
-            res.render("pages/error", {error: "book added !"})
+            res.render("pages/message", ["Success", "Book added successfully!"])
         }else{
-            res.render("pages/error", {error: "book not inserted"})
+            res.status(400).render("pages/message", ["Success", "Book was not added."])
         }
     }catch(err){
-        res.status(500).render("pages/error", { error: "Internal Error #66234b" })
+        res.status(500).render("pages/message", ["Error", "Internal Error #66234b"])
     }
 }
 
