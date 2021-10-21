@@ -1,6 +1,15 @@
+<% 
+    const links = [
+        ["/", "index", "Main"],
+        ["/newbook", "newbook", "New Book"],
+        ["/about", "about", "About"]
+    ];
+%>
+
 <nav>
     <ul>
-        <li><a href="/" class="link<%= locals?.page === "index" ? " active" : "" %>">Main</a></li>
-        <li><a href="/newbook" class="link<%= locals?.page === "newbook" ? " active" : "" %>">New book</a></li>
+        <% links.forEach(link => { %>
+            <li><a href="<%= link[0] %>" class="link<%= locals?.page === link[1] ? " active" : "" %>"><%= link[2] %></a></li>
+        <% }) %>
     </ul>
 </nav>

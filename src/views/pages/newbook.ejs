@@ -3,19 +3,45 @@
     <div class="container">
         <h2>Main</h2>
         <div class="container">
-            <form action="newbook" method="post">
-                <input type="text" placeholder="book title" name="title" class="d-inline-block" required>
-                <input type="text" placeholder="book author" name="author" class="d-inline-block" required>
-                <input type="number" placeholder="book year" name="year" min="1000" max="2100" class="d-inline-block" required>
-                <select name="category" id="category" required>
+            <form action="newbook" method="post" id="newbook-form">
+                <input type="text" placeholder="book title" name="title" class="d-inline-block" id="newbook-title" required>
+                <input type="text" placeholder="book author" name="author" class="d-inline-block" id="newbook-author" required>
+                <input type="number" placeholder="book year" name="year" min="1000" max="2100" class="d-inline-block" id="newbook-year" required>
+                <select name="category" id="newbook-category" required>
                     <option value="0" selected disabled>Select Category</option>
                     <% locals.categories.forEach(category => { %>
                         <option value="<%= category.id  %> "><%= category.name %></option>
                     <% }) %>
                 </select>
-                <button type="submit">Add a book</button>
+                <button type="submit" id="newbook-submit" disabled>Add a book</button>
             </form>
         </div>
     </div>
 </main>
+<script>
+    const form = document.getElementById("newbook-form");
+    const newbookTitle = document.getElementById("newbook-title");
+    const newbookAuthor = document.getElementById("newbook-author");
+    const newbookYear = document.getElementById("newbook-year");
+    const newbookCategory = document.getElementById("newbook-category");
+    const newbookSubmit = document.getElementById("newbook-submit");
+    form.addEventListener("change", e => {
+        const category = Number(newbookCategory.value)
+        const year = Number(newbookYear.value)
+
+        newbookSubmit.disabled = ( // is data valid
+            isNaN(category) ||
+            category === 0 ||
+            !newbookTitle.value || 
+            !newbookAuthor.value || 
+            newbookTitle.value.length < 2 || 
+            newbookTitle.value > 150 ||
+            newbookAuthor.value.length < 2 || 
+            newbookAuthor.value > 150 ||
+            isNaN(year) || 
+            year < 1000 ||
+            year > 3000 
+        );
+    })
+</script>
 <%- include("../partials/footer"); %> 
